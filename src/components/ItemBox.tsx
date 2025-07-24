@@ -6,10 +6,10 @@ interface Props {
   price: number;
   img?: ReactElement;
   index: number;
-  isActive?: boolean;
+  selected?: boolean;
 }
 
-const ItemBox = ({ name, price, img, index }: Props) => {
+const ItemBox = ({ name, price, img, index, selected }: Props) => {
   return (
     <motion.div
       key={name + index}
@@ -19,11 +19,21 @@ const ItemBox = ({ name, price, img, index }: Props) => {
         backgroundColor: "#454545",
         opacity: 0,
       }}
-      animate={{ backgroundColor: "#454545", opacity: 1 }}
+      animate={{
+        backgroundColor: "#454545",
+        opacity: 1,
+        color: selected ? "#37B652" : "inherit",
+      }}
       exit={{ opacity: 0 }}
       whileHover={{ backgroundColor: "#5E5F5E" }}
     >
-      <div className="absolute top-1 left-3 text-[#CCCCCC]">{index}</div>
+      <motion.div
+        className="absolute top-1 left-3 text-[#CCCCCC]"
+        initial={{ color: "#CCCCCC" }}
+        animate={{ color: selected ? "#37B652" : "#CCCCCC" }}
+      >
+        {index}
+      </motion.div>
       <div className="absolute top-1 right-3 max-w-[66%] text-right">
         {name}
       </div>

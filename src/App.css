@@ -10,6 +10,15 @@
   font-family: "Rajdhani";
 }
 
+html {
+  overflow: hidden;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+
 @font-face {
   font-family: "Rajdhani";
   src: url("../public/Rajdhani-SemiBold.ttf") format("truetype");

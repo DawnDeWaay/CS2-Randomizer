@@ -6,11 +6,10 @@ import { ctItems, tItems } from "./components/utils";
 
 function App() {
   const [ctSide, setCtSide] = useState(true);
+  const [money, setMoney] = useState<number | null>(16000);
 
   const ctColor = "#99C9FB";
   const tColor = "#EBBF57";
-  const itemBg = "#454545";
-  const textColor = "#CCCCCC";
 
   return (
     <motion.div
@@ -19,16 +18,35 @@ function App() {
     >
       <AnimatePresence>
         <div className="w-[1200px] h-[700px] m-4 flex flex-col gap-1">
-          <div className="bg-black/50 backdrop-blur-xl h-12 flex items-center justify-between p-2 px-8 text-2xl font-bold">
-            <div>$4060</div>
+          <div className="bg-black/50 backdrop-blur-xl h-12 flex items-center p-2 px-8 text-2xl font-bold text-start">
+            <div className="flex-1 flex-row">
+              $
+              <input
+                type="number"
+                value={money || ""}
+                onChange={(e) => setMoney(Number(e.target.value) || null)}
+                className="bg-transparent outline-none w-24 text-inherit font-bold"
+                style={{ appearance: "textfield" }}
+                min={0}
+                max={16000}
+              />
+            </div>
+            <motion.div
+              className="cursor-pointer flex-1 text-center select-none"
+              whileHover={{ color: "#37B652" }}
+            >
+              Randomize
+            </motion.div>
             {ctSide ? (
               <motion.div
                 key="CT"
                 onClick={() => setCtSide(false)}
                 initial={{
+                  flex: 1,
                   opacity: 0,
                   cursor: "pointer",
                   userSelect: "none",
+                  textAlign: "end",
                 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -40,9 +58,11 @@ function App() {
                 key="T"
                 onClick={() => setCtSide(true)}
                 initial={{
+                  flex: 1,
                   opacity: 0,
                   cursor: "pointer",
                   userSelect: "none",
+                  textAlign: "end",
                 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -57,12 +77,13 @@ function App() {
                 1
               </div>
               <div className="h-12 text-[#CCCCCC]">Equipment</div>
-              <div className="h-full grid grid-rows-5 gap-3">
+              <div className="h-full grid grid-rows-5 gap-2">
                 {(ctSide ? ctItems : tItems).equipment.map((item, index) => (
                   <ItemBox
                     name={item.name}
                     price={item.price}
                     index={index + 1}
+                    selected
                   />
                 ))}
               </div>
@@ -72,7 +93,7 @@ function App() {
                 2
               </div>
               <div className="h-12 text-[#CCCCCC]">Pistols</div>
-              <div className="h-full grid grid-rows-5 gap-3">
+              <div className="h-full grid grid-rows-5 gap-2">
                 {(ctSide ? ctItems : tItems).pistols
                   .sort((a, b) => a.price - b.price)
                   .map((item, index) => (
@@ -89,7 +110,7 @@ function App() {
                 3
               </div>
               <div className="h-12 text-[#CCCCCC]">Mid-Tier</div>
-              <div className="h-full grid grid-rows-5 gap-3">
+              <div className="h-full grid grid-rows-5 gap-2">
                 {(ctSide ? ctItems : tItems).midTier
                   .sort((a, b) => a.price - b.price)
                   .map((item, index) => (
@@ -106,7 +127,7 @@ function App() {
                 4
               </div>
               <div className="h-12 text-[#CCCCCC]">Rifles</div>
-              <div className="h-full grid grid-rows-5 gap-3">
+              <div className="h-full grid grid-rows-5 gap-2">
                 {(ctSide ? ctItems : tItems).rifles
                   .sort((a, b) => a.price - b.price)
                   .map((item, index) => (
@@ -123,7 +144,7 @@ function App() {
                 5
               </div>
               <div className="h-12 text-[#CCCCCC]">Grenades</div>
-              <div className="h-full grid grid-rows-5 gap-3">
+              <div className="h-full grid grid-rows-5 gap-2">
                 {(ctSide ? ctItems : tItems).grenades.map((item, index) => (
                   <ItemBox
                     name={item.name}
@@ -141,4 +162,3 @@ function App() {
 }
 
 export default App;
-// I want the text for each section header (pistols, mid-tier etc) to have the css text stretch condensed property, I am reading that thats not widely supported anymore, is there another way?
