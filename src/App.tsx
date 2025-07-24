@@ -73,13 +73,15 @@ function App() {
               </div>
               <div className="h-12 text-[#CCCCCC]">Pistols</div>
               <div className="h-full grid grid-rows-5 gap-3">
-                {(ctSide ? ctItems : tItems).pistols.map((item, index) => (
-                  <ItemBox
-                    name={item.name}
-                    price={item.price}
-                    index={index + 1}
-                  />
-                ))}
+                {(ctSide ? ctItems : tItems).pistols
+                  .sort((a, b) => a.price - b.price)
+                  .map((item, index) => (
+                    <ItemBox
+                      name={item.name}
+                      price={item.price}
+                      index={index + 1}
+                    />
+                  ))}
               </div>
             </div>
             <div className="w-full h-full flex-1 backdrop-blur-xl bg-black/50 p-4 pt-1 relative">
@@ -88,13 +90,15 @@ function App() {
               </div>
               <div className="h-12 text-[#CCCCCC]">Mid-Tier</div>
               <div className="h-full grid grid-rows-5 gap-3">
-                {(ctSide ? ctItems : tItems).midTier.map((item, index) => (
-                  <ItemBox
-                    name={item.name}
-                    price={item.price}
-                    index={index + 1}
-                  />
-                ))}
+                {(ctSide ? ctItems : tItems).midTier
+                  .sort((a, b) => a.price - b.price)
+                  .map((item, index) => (
+                    <ItemBox
+                      name={item.name}
+                      price={item.price}
+                      index={index + 1}
+                    />
+                  ))}
               </div>
             </div>
             <div className="w-full h-full flex-1 backdrop-blur-xl bg-black/50 p-4 pt-1 relative">
@@ -103,13 +107,15 @@ function App() {
               </div>
               <div className="h-12 text-[#CCCCCC]">Rifles</div>
               <div className="h-full grid grid-rows-5 gap-3">
-                {(ctSide ? ctItems : tItems).rifles.map((item, index) => (
-                  <ItemBox
-                    name={item.name}
-                    price={item.price}
-                    index={index + 1}
-                  />
-                ))}
+                {(ctSide ? ctItems : tItems).rifles
+                  .sort((a, b) => a.price - b.price)
+                  .map((item, index) => (
+                    <ItemBox
+                      name={item.name}
+                      price={item.price}
+                      index={index + 1}
+                    />
+                  ))}
               </div>
             </div>
             <div className="w-full h-full flex-1 backdrop-blur-xl bg-black/50 p-4 pt-1 relative">
