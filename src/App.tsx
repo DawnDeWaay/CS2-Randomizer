@@ -1,15 +1,49 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-function-type */
 import { AnimatePresence, motion } from "motion/react";
 import "./App.css";
 import { useState } from "react";
 import ItemBox from "./components/ItemBox";
 import { ctItems, tItems } from "./components/utils";
+import {
+  DndContext,
+  closestCenter,
+  useSensor,
+  useSensors,
+  PointerSensor,
+  KeyboardSensor,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 
 function App() {
   const [ctSide, setCtSide] = useState(true);
   const [money, setMoney] = useState<number | null>(16000);
 
+  const [pistols, setPistols] = useState(ctItems.pistols);
+  const [midTier, setMidTier] = useState(ctItems.midTier);
+  const [rifles, setRifles] = useState(ctItems.rifles);
+
   const ctColor = "#99C9FB";
   const tColor = "#EBBF57";
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor)
+  );
+
+  const handleDragEnd = (event: any, setItems: Function, items: any[]) => {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      const oldIndex = items.findIndex((item) => item.name === active.id);
+      const newIndex = items.findIndex((item) => item.name === over.id);
+      setItems(arrayMove(items, oldIndex, newIndex));
+    }
+  };
 
   return (
     <motion.div
@@ -71,85 +105,119 @@ function App() {
               </motion.div>
             )}
           </div>
-          <div className="h-full w-full flex flex-row gap-[1px] text-2xl font">
+          <div className="h-full w-full flex flex-row gap-[1px] text-2xl">
             <div className="w-full h-full flex-1 backdrop-blur-xl bg-black/50 p-4 pt-1 relative">
               <div className={`absolute top-2 left-5 text-lg text-[#CCCCCC]`}>
                 1
               </div>
               <div className="h-12 text-[#CCCCCC]">Equipment</div>
-              <div className="h-full grid grid-rows-5 gap-2">
+              <div className="h-full grid grid-rows-5 gap-3">
                 {(ctSide ? ctItems : tItems).equipment.map((item, index) => (
                   <ItemBox
                     name={item.name}
                     price={item.price}
                     index={index + 1}
-                    selected
+                    id={item.id}
                   />
                 ))}
               </div>
             </div>
             <div className="w-full h-full flex-1 backdrop-blur-xl bg-black/50 p-4 pt-1 relative">
-              <div className={`absolute top-2 left-5 text-lg text-[#CCCCCC]`}>
+              <div className="absolute top-2 left-5 text-lg text-[#CCCCCC]">
                 2
               </div>
               <div className="h-12 text-[#CCCCCC]">Pistols</div>
-              <div className="h-full grid grid-rows-5 gap-2">
-                {(ctSide ? ctItems : tItems).pistols
-                  .sort((a, b) => a.price - b.price)
-                  .map((item, index) => (
-                    <ItemBox
-                      name={item.name}
-                      price={item.price}
-                      index={index + 1}
-                    />
-                  ))}
-              </div>
+              <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={(event) => handleDragEnd(event, setPistols, pistols)}
+              >
+                <SortableContext
+                  items={pistols.map((item) => item.name)}
+                  strategy={verticalListSortingStrategy}
+                >
+                  <div className="h-full grid grid-rows-5 gap-2">
+                    {(ctSide ? ctItems : tItems).pistols.map((item, index) => (
+                      <ItemBox
+                        key={item.name}
+                        name={item.name}
+                        index={index + 1}
+                        price={item.price}
+                        id={item.id}
+                      />
+                    ))}
+                  </div>
+                </SortableContext>
+              </DndContext>
             </div>
             <div className="w-full h-full flex-1 backdrop-blur-xl bg-black/50 p-4 pt-1 relative">
-              <div className={`absolute top-2 left-5 text-lg text-[#CCCCCC]`}>
+              <div className="absolute top-2 left-5 text-lg text-[#CCCCCC]">
                 3
               </div>
               <div className="h-12 text-[#CCCCCC]">Mid-Tier</div>
-              <div className="h-full grid grid-rows-5 gap-2">
-                {(ctSide ? ctItems : tItems).midTier
-                  .sort((a, b) => a.price - b.price)
-                  .map((item, index) => (
-                    <ItemBox
-                      name={item.name}
-                      price={item.price}
-                      index={index + 1}
-                    />
-                  ))}
-              </div>
+              <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={(event) => handleDragEnd(event, setMidTier, midTier)}
+              >
+                <SortableContext
+                  items={midTier.map((item) => item.name)}
+                  strategy={verticalListSortingStrategy}
+                >
+                  <div className="h-full grid grid-rows-5 gap-2">
+                    {(ctSide ? ctItems : tItems).midTier.map((item, index) => (
+                      <ItemBox
+                        key={item.name}
+                        id={item.id}
+                        name={item.name}
+                        index={index + 1}
+                        price={item.price}
+                      />
+                    ))}
+                  </div>
+                </SortableContext>
+              </DndContext>
             </div>
             <div className="w-full h-full flex-1 backdrop-blur-xl bg-black/50 p-4 pt-1 relative">
-              <div className={`absolute top-2 left-5 text-lg text-[#CCCCCC]`}>
+              <div className="absolute top-2 left-5 text-lg text-[#CCCCCC]">
                 4
               </div>
               <div className="h-12 text-[#CCCCCC]">Rifles</div>
-              <div className="h-full grid grid-rows-5 gap-2">
-                {(ctSide ? ctItems : tItems).rifles
-                  .sort((a, b) => a.price - b.price)
-                  .map((item, index) => (
-                    <ItemBox
-                      name={item.name}
-                      price={item.price}
-                      index={index + 1}
-                    />
-                  ))}
-              </div>
+              <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={(event) => handleDragEnd(event, setRifles, rifles)}
+              >
+                <SortableContext
+                  items={rifles.map((item) => item.name)}
+                  strategy={verticalListSortingStrategy}
+                >
+                  <div className="h-full grid grid-rows-5 gap-2">
+                    {(ctSide ? ctItems : tItems).rifles.map((item, index) => (
+                      <ItemBox
+                        key={item.name}
+                        id={item.id}
+                        name={item.name}
+                        index={index + 1}
+                        price={item.price}
+                      />
+                    ))}
+                  </div>
+                </SortableContext>
+              </DndContext>
             </div>
             <div className="w-full h-full flex-1 backdrop-blur-xl bg-black/50 p-4 pt-1 relative">
               <div className={`absolute top-2 left-5 text-lg text-[#CCCCCC]`}>
                 5
               </div>
               <div className="h-12 text-[#CCCCCC]">Grenades</div>
-              <div className="h-full grid grid-rows-5 gap-2">
+              <div className="h-full grid grid-rows-5 gap-3">
                 {(ctSide ? ctItems : tItems).grenades.map((item, index) => (
                   <ItemBox
                     name={item.name}
                     price={item.price}
                     index={index + 1}
+                    id={item.id}
                   />
                 ))}
               </div>

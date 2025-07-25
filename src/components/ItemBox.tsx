@@ -1,3 +1,5 @@
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { motion } from "motion/react";
 import type { ReactElement } from "react";
 
@@ -7,11 +9,24 @@ interface Props {
   img?: ReactElement;
   index: number;
   selected?: boolean;
+  id: number;
 }
 
-const ItemBox = ({ name, price, img, index, selected }: Props) => {
+const ItemBox = ({ name, price, img, index, selected, id }: Props) => {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
   return (
     <motion.div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
       key={name + index}
       className="h-full w-full flex items-center justify-center border-1 border-black border-solid relative text-lg p-4 rounded-lg cursor-pointer"
       initial={{
