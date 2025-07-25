@@ -67,6 +67,8 @@ function App() {
             </div>
             <motion.div
               className="cursor-pointer flex-1 text-center select-none"
+              initial={{ color: ctSide ? ctColor : tColor }}
+              animate={{ color: ctSide ? ctColor : tColor }}
               whileHover={{ color: "#37B652" }}
             >
               Randomize
@@ -107,17 +109,20 @@ function App() {
           </div>
           <div className="h-full w-full flex flex-row gap-[1px] text-2xl">
             <div className="w-full h-full flex-1 backdrop-blur-xl bg-black/50 p-4 pt-1 relative">
-              <div className={`absolute top-2 left-5 text-lg text-[#CCCCCC]`}>
+              <div className="absolute top-2 left-5 text-lg text-[#CCCCCC]">
                 1
               </div>
+              <div className="cursor-pointer absolute top-2 right-5 text-xl text-[#CCCCCC]">
+                +
+              </div>
               <div className="h-12 text-[#CCCCCC]">Equipment</div>
-              <div className="h-full grid grid-rows-5 gap-3">
+              <div className="h-full flex flex-col gap-3 overflow-x-hidden">
                 {(ctSide ? ctItems : tItems).equipment.map((item, index) => (
                   <ItemBox
                     name={item.name}
                     price={item.price}
                     index={index + 1}
-                    id={item.id}
+                    id={item.name}
                   />
                 ))}
               </div>
@@ -125,6 +130,9 @@ function App() {
             <div className="w-full h-full flex-1 backdrop-blur-xl bg-black/50 p-4 pt-1 relative">
               <div className="absolute top-2 left-5 text-lg text-[#CCCCCC]">
                 2
+              </div>
+              <div className="cursor-pointer absolute top-2 right-5 text-xl text-[#CCCCCC]">
+                +
               </div>
               <div className="h-12 text-[#CCCCCC]">Pistols</div>
               <DndContext
@@ -136,14 +144,14 @@ function App() {
                   items={pistols.map((item) => item.name)}
                   strategy={verticalListSortingStrategy}
                 >
-                  <div className="h-full grid grid-rows-5 gap-2">
+                  <div className="h-full flex flex-col gap-2 overflow-x-hidden">
                     {(ctSide ? ctItems : tItems).pistols.map((item, index) => (
                       <ItemBox
                         key={item.name}
                         name={item.name}
                         index={index + 1}
                         price={item.price}
-                        id={item.id}
+                        id={item.name}
                       />
                     ))}
                   </div>
@@ -153,6 +161,9 @@ function App() {
             <div className="w-full h-full flex-1 backdrop-blur-xl bg-black/50 p-4 pt-1 relative">
               <div className="absolute top-2 left-5 text-lg text-[#CCCCCC]">
                 3
+              </div>
+              <div className="cursor-pointer absolute top-2 right-5 text-xl text-[#CCCCCC]">
+                +
               </div>
               <div className="h-12 text-[#CCCCCC]">Mid-Tier</div>
               <DndContext
@@ -164,11 +175,11 @@ function App() {
                   items={midTier.map((item) => item.name)}
                   strategy={verticalListSortingStrategy}
                 >
-                  <div className="h-full grid grid-rows-5 gap-2">
+                  <div className="h-full flex flex-col gap-2 overflow-x-hidden">
                     {(ctSide ? ctItems : tItems).midTier.map((item, index) => (
                       <ItemBox
                         key={item.name}
-                        id={item.id}
+                        id={item.name}
                         name={item.name}
                         index={index + 1}
                         price={item.price}
@@ -182,6 +193,9 @@ function App() {
               <div className="absolute top-2 left-5 text-lg text-[#CCCCCC]">
                 4
               </div>
+              <div className="cursor-pointer absolute top-2 right-5 text-xl text-[#CCCCCC]">
+                +
+              </div>
               <div className="h-12 text-[#CCCCCC]">Rifles</div>
               <DndContext
                 sensors={sensors}
@@ -192,11 +206,11 @@ function App() {
                   items={rifles.map((item) => item.name)}
                   strategy={verticalListSortingStrategy}
                 >
-                  <div className="h-full grid grid-rows-5 gap-2">
+                  <div className="h-full flex flex-col gap-2 overflow-x-hidden">
                     {(ctSide ? ctItems : tItems).rifles.map((item, index) => (
                       <ItemBox
                         key={item.name}
-                        id={item.id}
+                        id={item.name}
                         name={item.name}
                         index={index + 1}
                         price={item.price}
@@ -207,21 +221,27 @@ function App() {
               </DndContext>
             </div>
             <div className="w-full h-full flex-1 backdrop-blur-xl bg-black/50 p-4 pt-1 relative">
-              <div className={`absolute top-2 left-5 text-lg text-[#CCCCCC]`}>
+              <div className="absolute top-2 left-5 text-lg text-[#CCCCCC]">
                 5
               </div>
+              <div className="cursor-pointer absolute top-2 right-5 text-xl text-[#CCCCCC]">
+                +
+              </div>
               <div className="h-12 text-[#CCCCCC]">Grenades</div>
-              <div className="h-full grid grid-rows-5 gap-3">
+              <div className="h-full flex flex-col gap-3 overflow-x-hidden">
                 {(ctSide ? ctItems : tItems).grenades.map((item, index) => (
                   <ItemBox
                     name={item.name}
                     price={item.price}
                     index={index + 1}
-                    id={item.id}
+                    id={item.name}
                   />
                 ))}
               </div>
             </div>
+          </div>
+          <div className="backdrop-blur-xl bg-black/50 w-full h-40 p-4">
+            ASFOKINAFIUAWHBFAUFW
           </div>
         </div>
       </AnimatePresence>

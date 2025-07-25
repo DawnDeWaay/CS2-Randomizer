@@ -9,7 +9,7 @@ interface Props {
   img?: ReactElement;
   index: number;
   selected?: boolean;
-  id: number;
+  id: string;
 }
 
 const ItemBox = ({ name, price, img, index, selected, id }: Props) => {
@@ -28,7 +28,7 @@ const ItemBox = ({ name, price, img, index, selected, id }: Props) => {
       {...attributes}
       {...listeners}
       key={name + index}
-      className="h-full w-full flex items-center justify-center border-1 border-black border-solid relative text-lg p-4 rounded-lg cursor-pointer"
+      className="h-[116px] w-full flex items-center justify-center border-1 border-black border-solid relative text-lg p-4 rounded-lg cursor-pointer"
       initial={{
         boxShadow: "inset 0px 0px 48px 0px rgba(0,0,0,0.5)",
         backgroundColor: "#454545",
