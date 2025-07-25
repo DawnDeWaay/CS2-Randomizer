@@ -240,9 +240,6 @@ function App() {
               </div>
             </div>
           </div>
-          <div className="backdrop-blur-xl bg-black/50 w-full h-40 p-4">
-            ASFOKINAFIUAWHBFAUFW
-          </div>
         </div>
       </AnimatePresence>
     </motion.div>
